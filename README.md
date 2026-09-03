@@ -4,12 +4,11 @@
 
 Build your training cycle, log every set, and track your progress with streaks and per-exercise charts. Everything lives on your device.
 
-<!-- Swap these for real screenshots from your phone -->
 <p align="center">
-  <img src="docs/screenshot-dashboard.png" width="200" alt="Dashboard with streak view" />
-  <img src="docs/screenshot-log.png" width="200" alt="Log workout screen" />
-  <img src="docs/screenshot-history.png" width="200" alt="History with exercise chart" />
-  <img src="docs/screenshot-setup.png" width="200" alt="Cycle setup screen" />
+  <img src="docs/dashboard.jpg" width="200" alt="Dashboard with streak view" />
+  <img src="docs/log_workout.jpg" width="200" alt="Log workout screen" />
+  <img src="docs/history_01.jpg" width="200" alt="History screen with per-exercise entries" />
+  <img src="docs/cycle_03.jpg" width="200" alt="Cycle builder with normal/superset/circuit exercise types" />
 </p>
 
 <p align="center">
@@ -68,6 +67,12 @@ This 8→12 rep "ladder" keeps you in the hypertrophy-optimal rep range while gu
 - Because every set, rep, and weight is logged locally and instantly (no network round-trip), there's zero friction to logging mid-set between reps in the gym
 
 If you're training for hypertrophy, the intended workflow is: build your cycle around compound + accessory lifts in the 8–12 rep range, log every set faithfully, and use the exercise chart as your primary "am I progressing" signal — not just your bodyweight or the mirror.
+
+<p align="center">
+  <img src="docs/graph.jpg" width="240" alt="Exercise chart showing a rep climb from 8 to 12 reps at the same weight before a jump" />
+  <br/>
+  <sub>Straight Bar Pushdown: 8 reps → 12 reps at 45kg, right before the next weight jump</sub>
+</p>
 
 ## Download
 
@@ -131,6 +136,11 @@ Iron-Log/
 ## Data & backups
 
 Everything — cycles, days, exercises, logged sets — lives in a single SQLite database on the device. Use **Export backup** on the Cycle Setup tab any time to save it all to a JSON file via the native share sheet (Drive, email, wherever). The same file can be re-imported later on this phone or a different one via **Import old data**.
+
+<p align="center">
+  <img src="docs/cycle_01.jpg" width="220" alt="Cycle picker and export backup UI" />
+  <img src="docs/cycle_02.jpg" width="220" alt="Import backup and cycle creation UI" />
+</p>
 
 ## License
 
