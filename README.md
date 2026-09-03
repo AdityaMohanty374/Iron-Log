@@ -69,9 +69,9 @@ This 8→12 rep "ladder" keeps you in the hypertrophy-optimal rep range while gu
 If you're training for hypertrophy, the intended workflow is: build your cycle around compound + accessory lifts in the 8–12 rep range, log every set faithfully, and use the exercise chart as your primary "am I progressing" signal — not just your bodyweight or the mirror.
 
 <p align="center">
-  <img src="docs/graph.jpg" width="240" alt="Exercise chart showing a rep climb from 8 to 12 reps at the same weight before a jump" />
+  <img src="docs/graph.jpg" width="240" alt="Exercise chart showing a rep climb from 8 to 12 reps at the same weight before a jump to 50kgs for 8 reps" />
   <br/>
-  <sub>Straight Bar Pushdown: 8 reps → 12 reps at 45kg, right before the next weight jump</sub>
+  <sub>Straight Bar Pushdown: 8 reps → 12 reps at 45kg, right before the next weight jump to 50kgs for 8 reps</sub>
 </p>
 
 ## Download
