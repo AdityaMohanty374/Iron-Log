@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <!-- transparent bg, mark inset for Android adaptive-icon safe zone -->
+  <g stroke="#10B981" stroke-width="40" stroke-linecap="round">
+    <line x1="312" y1="512" x2="712" y2="512"/>
+  </g>
+  <g fill="#10B981">
+    <rect x="268" y="410" width="60" height="204" rx="18"/>
+    <rect x="696" y="410" width="60" height="204" rx="18"/>
+    <rect x="216" y="450" width="40" height="124" rx="12"/>
+    <rect x="768" y="450" width="40" height="124" rx="12"/>
+  </g>
+</svg>

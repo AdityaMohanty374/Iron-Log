@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="2732" height="2732" viewBox="0 0 2732 2732">
+  <rect width="2732" height="2732" fill="#111318"/>
+  <g stroke="#10B981" stroke-width="80" stroke-linecap="round">
+    <line x1="1166" y1="1366" x2="1566" y2="1366"/>
+  </g>
+  <g fill="#10B981">
+    <rect x="1082" y="1240" width="110" height="252" rx="28"/>
+    <rect x="1540" y="1240" width="110" height="252" rx="28"/>
+    <rect x="990" y="1290" width="72" height="152" rx="20"/>
+    <rect x="1670" y="1290" width="72" height="152" rx="20"/>
+  </g>
+  <text x="1366" y="1560" font-family="Arial, sans-serif" font-size="56" fill="#8A93A3" text-anchor="middle" letter-spacing="4">IRON LOG</text>
+</svg>

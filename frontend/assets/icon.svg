@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" fill="#111318"/>
+  <!-- minimal barbell mark, echoes the plus/log icon + dumbbell reading -->
+  <g stroke="#10B981" stroke-width="46" stroke-linecap="round">
+    <line x1="242" y1="512" x2="782" y2="512"/>
+  </g>
+  <g fill="#10B981">
+    <rect x="190" y="392" width="70" height="240" rx="20"/>
+    <rect x="764" y="392" width="70" height="240" rx="20"/>
+    <rect x="130" y="440" width="46" height="144" rx="14"/>
+    <rect x="848" y="440" width="46" height="144" rx="14"/>
+  </g>
+</svg>

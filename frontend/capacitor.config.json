@@ -1,0 +1,12 @@
+{
+  "appId": "com.ironlog.app",
+  "appName": "Iron Log",
+  "webDir": "dist",
+  "bundledWebRuntime": false,
+  "plugins": {
+    "CapacitorSQLite": {
+      "iosDatabaseLocation": "Library/CapacitorDatabase",
+      "androidIsEncryption": false
+    }
+  }
+}
