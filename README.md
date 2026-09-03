@@ -1,4 +1,4 @@
-# 🏋️ Iron Log
+# Iron Log
 
 **A fully offline gym tracker for Android — no backend, no internet required.**
 
