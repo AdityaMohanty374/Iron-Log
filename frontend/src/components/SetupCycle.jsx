@@ -148,6 +148,31 @@ function CyclePicker({ onDone }) {
   );
 }
 
+function RestToggle({ checked, onChange }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      onClick={() => onChange(!checked)}
+      className={`flex items-center gap-2.5 rounded-full pl-1 pr-3 py-1 border transition-colors ${
+        checked ? "bg-accent/15 border-accent/50" : "bg-panel2 border-line"
+      }`}
+    >
+      <span
+        className={`relative w-8 h-5 rounded-full transition-colors ${checked ? "bg-accent" : "bg-line"}`}
+      >
+        <span
+          className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-ink shadow transition-transform ${
+            checked ? "translate-x-3" : "translate-x-0"
+          }`}
+        />
+      </span>
+      <span className={`text-xs font-medium ${checked ? "text-accentSoft" : "text-mute"}`}>Rest day</span>
+    </button>
+  );
+}
+
 function DayCard({ day, onChange, dayNumber }) {
   function setField(field, val) {
     onChange({ ...day, [field]: val });
@@ -169,22 +194,15 @@ function DayCard({ day, onChange, dayNumber }) {
 
   return (
     <div className="bg-panel border border-line rounded-2xl p-5 space-y-4">
-      <div className="flex items-center gap-3">
-        <span className="font-display text-sm text-accent font-semibold">Day {dayNumber}</span>
-        <input
-          type="text" required value={day.name} onChange={(e) => setField("name", e.target.value)}
-          placeholder="e.g. Push Day"
-          className="flex-1 bg-panel2 border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
-        />
-        <label className="flex items-center gap-2 text-xs text-mute whitespace-nowrap">
-          <input
-            type="checkbox" checked={day.is_rest}
-            onChange={(e) => setField("is_rest", e.target.checked)}
-            className="accent-accent"
-          />
-          Rest day
-        </label>
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-display text-sm text-accent font-semibold whitespace-nowrap">Day {dayNumber}</span>
+        <RestToggle checked={day.is_rest} onChange={(v) => setField("is_rest", v)} />
       </div>
+      <input
+        type="text" required value={day.name} onChange={(e) => setField("name", e.target.value)}
+        placeholder="e.g. Push Day"
+        className="w-full bg-panel2 border border-line rounded-lg px-3 py-2 text-sm outline-none focus:border-accent"
+      />
 
       {!day.is_rest && (
         <div className="space-y-3">
