@@ -4,19 +4,7 @@
 
 Build your training cycle, log every set, and track your progress with streaks and per-exercise charts. Everything lives on your device.
 
-<p align="center">
-  <img src="docs/dashboard.jpg" width="200" alt="Dashboard with streak view" />
-  <img src="docs/log_workout.jpg" width="200" alt="Log workout screen" />
-  <img src="docs/history_01.jpg" width="200" alt="History screen with per-exercise entries" />
-  <img src="docs/cycle_03.jpg" width="200" alt="Cycle builder with normal/superset/circuit exercise types" />
-</p>
-
-<p align="center">
-  <img src="https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white" alt="Platform: Android" />
-  <img src="https://img.shields.io/badge/offline--first-yes-10B981" alt="Offline-first" />
-  <img src="https://img.shields.io/badge/built%20with-Capacitor-119EFF?logo=capacitor&logoColor=white" alt="Built with Capacitor" />
-  <img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT" />
-</p>
+<p align="center"> <img src="docs/dashboard.jpg" width="200" alt="Dashboard with streak view" /> <img src="docs/log_workout.jpg" width="200" alt="Log workout screen" /> <img src="docs/history_01.jpg" width="200" alt="History screen with per-exercise entries" /> <img src="docs/iron_log_demo.gif" width="200" alt="Demo of building a cycle with normal/superset/circuit exercise types" /> </p> <p align="center"> <img src="https://img.shields.io/badge/platform-Android-3DDC84?logo=android&logoColor=white" alt="Platform: Android" /> <img src="https://img.shields.io/badge/offline--first-yes-10B981" alt="Offline-first" /> <img src="https://img.shields.io/badge/built%20with-Capacitor-119EFF?logo=capacitor&logoColor=white" alt="Built with Capacitor" /> <img src="https://img.shields.io/badge/license-MIT-blue" alt="License: MIT" /> </p>
 
 ---
 
