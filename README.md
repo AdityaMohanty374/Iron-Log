@@ -10,7 +10,7 @@ Build your training cycle, log every set, and track your progress with streaks a
 
 ## Why this exists
 
-Iron Log started as a fairly standard web-app stack — Postgres on [Neon](https://neon.tech), a [FastAPI](https://fastapi.tiangolo.com) backend on [Render](https://render.com), and a [Vite](https://vitejs.dev)/React frontend on [Vercel](https://vercel.com). That's a fine stack for a lot of things, but a gym tracker needs to work in a locker room with no signal, on a flight, or wherever your gym happens to have terrible reception.
+Iron Log started as a fairly standard [web-app stack](https://github.com/AdityaMohanty374/Iron-Log-online) — Postgres on [Neon](https://neon.tech), a [FastAPI](https://fastapi.tiangolo.com) backend on [Render](https://render.com), and a [Vite](https://vitejs.dev)/React frontend on [Vercel](https://vercel.com). That's a fine stack for a lot of things, but a gym tracker needs to work in a locker room with no signal, on a flight, or wherever your gym happens to have terrible reception.
 
 So the entire backend was removed. The Postgres schema was ported to on-device SQLite, the API layer was replaced with local queries, and the whole thing was wrapped as a native Android app with [Capacitor](https://capacitorjs.com). It now runs with zero network dependency — the same UI, entirely offline.
 
