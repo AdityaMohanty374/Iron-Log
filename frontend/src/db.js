@@ -663,6 +663,70 @@ async function exportBackup() {
   return { cycles: cyclesOut, workout_logs: workoutLogsOut };
 }
 
+async function getExerciseInsight(exerciseId, excludeWorkoutLogId) {
+  // Everything logged for this exercise so far, most recent first, heaviest-set-first
+  // within a date — used to drive the "try this next" progressive-overload hint and
+  // PR detection. Grouped by sub_index so supersets/circuits get independent guidance
+  // per movement rather than mixing two different exercises together.
+  const rows = await all(
+    `SELECT wl.date as date, sl.sub_index as sub_index, sl.weight as weight, sl.reps as reps
+     FROM set_logs sl
+     JOIN exercise_logs el ON sl.exercise_log_id = el.id
+     JOIN workout_logs wl ON el.workout_log_id = wl.id
+     WHERE el.exercise_id = ? AND wl.id != ?
+     ORDER BY wl.date DESC, sl.weight DESC, sl.reps DESC`,
+    [exerciseId, excludeWorkoutLogId || -1]
+  );
+
+  const bySub = {};
+  for (const r of rows) {
+    if (!bySub[r.sub_index]) bySub[r.sub_index] = [];
+    bySub[r.sub_index].push(r);
+  }
+
+  const result = {};
+  for (const [subIdx, subRows] of Object.entries(bySub)) {
+    const lastDate = subRows[0].date;
+    const last = subRows.find((r) => r.date === lastDate); // rows already sorted heaviest-first
+
+    let suggestion = null;
+    if (last.weight != null && last.reps != null) {
+      // Double progression: once you hit 12 reps at a weight, add a little
+      // weight and reset toward 8; otherwise just add one more rep.
+      suggestion =
+        last.reps >= 12
+          ? { weight: Math.round((last.weight + 2.5) * 2) / 2, reps: 8 }
+          : { weight: last.weight, reps: last.reps + 1 };
+    }
+
+    const weights = subRows.map((r) => r.weight).filter((w) => w != null);
+    const prWeight = weights.length ? Math.max(...weights) : null;
+    const prReps =
+      prWeight != null
+        ? Math.max(...subRows.filter((r) => r.weight === prWeight).map((r) => r.reps || 0))
+        : null;
+
+    result[subIdx] = { last, suggestion, prWeight, prReps };
+  }
+  return result; // keyed by sub_index (string)
+}
+
+async function listKnownExerciseNames() {
+  const rows = await all("SELECT names FROM exercises");
+  const set = new Set();
+  for (const r of rows) {
+    try {
+      const arr = JSON.parse(r.names);
+      arr.forEach((n) => {
+        if (n && n.trim()) set.add(n.trim());
+      });
+    } catch {
+      // ignore malformed rows
+    }
+  }
+  return [...set].sort((a, b) => a.localeCompare(b));
+}
+
 // ---------------------------------------------------------------------------
 // Public API — same shape as the old fetch-based `api` object, so components
 // barely change.
@@ -682,4 +746,6 @@ export const api = {
   exerciseHistory,
   importBackup,
   exportBackup,
+  getExerciseInsight,
+  listKnownExerciseNames,
 };

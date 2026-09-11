@@ -85,6 +85,7 @@ function ExerciseRow({ exercise, onChange, onRemove, index }) {
         {exercise.names.map((name, i) => (
           <input
             key={i} type="text" required value={name} onChange={(e) => setName(i, e.target.value)}
+            list="known-exercise-names"
             placeholder={
               exercise.type === "normal" ? "Exercise name" :
               exercise.type === "superset" ? `Superset ${i + 1} name` :
@@ -391,6 +392,11 @@ export default function SetupCycle({ onDone }) {
   const [days, setDays] = useState([]);
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [knownNames, setKnownNames] = useState([]);
+
+  useEffect(() => {
+    api.listKnownExerciseNames().then(setKnownNames);
+  }, []);
 
   function startBuilding() {
     setDays(Array.from({ length: numDays }, (_, i) => ({
@@ -502,6 +508,11 @@ export default function SetupCycle({ onDone }) {
           </div>
         </div>
       )}
+      <datalist id="known-exercise-names">
+        {knownNames.map((n) => (
+          <option key={n} value={n} />
+        ))}
+      </datalist>
       <AuthorFooter />
     </div>
   );

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { api } from "../db";
 
 function todayStr() {
@@ -6,7 +6,7 @@ function todayStr() {
   return d.toISOString().slice(0, 10);
 }
 
-function SetGrid({ exercise, numSets, sets, onSetChange }) {
+function SetGrid({ exercise, numSets, sets, onSetChange, insight }) {
   const subCount = exercise.names.length;
   const rows = Array.from({ length: numSets }, (_, i) => i);
 
@@ -18,6 +18,14 @@ function SetGrid({ exercise, numSets, sets, onSetChange }) {
           <div className={`grid gap-3 ${subCount > 1 ? "grid-cols-1" : ""}`}>
             {exercise.names.map((name, subIdx) => {
               const val = sets[setIdx]?.[subIdx] || {};
+              const ins = insight?.[subIdx];
+              const weightNum = parseFloat(val.weight);
+              const repsNum = parseInt(val.reps, 10);
+              const isPR =
+                ins?.prWeight != null &&
+                !isNaN(weightNum) &&
+                !isNaN(repsNum) &&
+                (weightNum > ins.prWeight || (weightNum === ins.prWeight && repsNum > (ins.prReps || 0)));
               return (
                 <div key={subIdx} className={subCount > 1 ? "bg-panel2 rounded-md p-2 border border-line" : ""}>
                   {subCount > 1 && <div className="text-[11px] text-accentSoft mb-1.5">{name}</div>}
@@ -47,6 +55,11 @@ function SetGrid({ exercise, numSets, sets, onSetChange }) {
                       />
                     </div>
                   </div>
+                  {isPR && (
+                    <div className="mt-1.5 text-[11px] font-semibold text-accent flex items-center gap-1">
+                      🏆 New PR
+                    </div>
+                  )}
                 </div>
               );
             })}
@@ -57,9 +70,64 @@ function SetGrid({ exercise, numSets, sets, onSetChange }) {
   );
 }
 
-function ExerciseLogger({ exercise, data, onUpdate }) {
+function InsightBanner({ exercise, insight }) {
+  if (!insight) return null;
+  const rows = exercise.names
+    .map((name, subIdx) => ({ name, subIdx, ins: insight[subIdx] }))
+    .filter((r) => r.ins?.last);
+  if (rows.length === 0) return null;
+
+  return (
+    <div className="bg-panel2/60 border border-line/70 rounded-lg px-3 py-2 space-y-1">
+      {rows.map(({ name, subIdx, ins }) => (
+        <div key={subIdx} className="text-xs text-mute flex flex-wrap items-center gap-x-1.5">
+          {exercise.names.length > 1 && <span className="text-accentSoft font-medium">{name}:</span>}
+          <span>Last: {ins.last.weight ?? "–"}kg × {ins.last.reps ?? "–"}</span>
+          {ins.suggestion && (
+            <span className="text-accent">
+              · Try {ins.suggestion.weight}kg × {ins.suggestion.reps}
+              {ins.last.reps >= 12 ? " (add weight!)" : " (+1 rep)"}
+            </span>
+          )}
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function ExerciseLogger({ exercise, data, onUpdate, excludeWorkoutLogId }) {
   const numSets = data.numSets;
   const [numSetsText, setNumSetsText] = useState(String(numSets));
+  const [insight, setInsight] = useState(null);
+  const prefilledRef = useRef(false);
+  const hadInitialData = useRef(Object.keys(data.sets || {}).length > 0);
+
+  useEffect(() => {
+    let cancelled = false;
+    api.getExerciseInsight(exercise.id, excludeWorkoutLogId).then((res) => {
+      if (!cancelled) setInsight(res);
+    });
+    return () => {
+      cancelled = true;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [exercise.id]);
+
+  // Prefill set 1 with the double-progression suggestion, but only for a
+  // brand-new log (never clobber values already loaded for an edit).
+  useEffect(() => {
+    if (!insight || prefilledRef.current || hadInitialData.current) return;
+    prefilledRef.current = true;
+    const firstSet = {};
+    exercise.names.forEach((_, subIdx) => {
+      const sug = insight[subIdx]?.suggestion;
+      if (sug) firstSet[subIdx] = { weight: String(sug.weight), reps: String(sug.reps), rpe: "" };
+    });
+    if (Object.keys(firstSet).length > 0) {
+      onUpdate({ ...data, sets: { ...data.sets, 0: { ...(data.sets[0] || {}), ...firstSet } } });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [insight]);
 
   function commitNumSets(n) {
     n = Math.max(1, Math.min(15, n));
@@ -102,7 +170,8 @@ function ExerciseLogger({ exercise, data, onUpdate }) {
           />
         </div>
       </div>
-      <SetGrid exercise={exercise} numSets={numSets} sets={data.sets} onSetChange={onSetChange} />
+      <InsightBanner exercise={exercise} insight={insight} />
+      <SetGrid exercise={exercise} numSets={numSets} sets={data.sets} onSetChange={onSetChange} insight={insight} />
     </div>
   );
 }
@@ -235,6 +304,7 @@ export default function LogWorkout({ cycle, onLogged, editingLog, onCancelEdit }
             <ExerciseLogger
               key={ex.id} exercise={ex} data={exerciseData[ex.id] || { numSets: 3, sets: {} }}
               onUpdate={(d) => setExerciseData({ ...exerciseData, [ex.id]: d })}
+              excludeWorkoutLogId={isEditing ? editingLog.id : null}
             />
           ))}
 
